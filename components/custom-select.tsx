@@ -49,6 +49,7 @@ export function CustomSelect({ options, value, onChange, label, id }: CustomSele
           role="combobox"
           aria-expanded={isOpen}
           aria-haspopup="listbox"
+          aria-controls={`${id}-listbox`}
           onClick={() => setIsOpen((o) => !o)}
           onKeyDown={handleKeyDown}
           className="inline-flex items-center gap-2 h-9 pl-3 pr-2 rounded-xl
@@ -73,6 +74,7 @@ export function CustomSelect({ options, value, onChange, label, id }: CustomSele
 
         {isOpen && (
           <div
+            id={`${id}-listbox`}
             role="listbox"
             className="absolute top-full left-0 mt-1.5 min-w-[140px] py-1.5
               rounded-xl border border-gray-200 bg-white shadow-xl shadow-gray-200/50

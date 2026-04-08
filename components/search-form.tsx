@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
+import { CustomSelect } from "./custom-select";
 
 const SORT_OPTIONS = [
   { value: "stars", label: "Star数" },
@@ -9,9 +10,14 @@ const SORT_OPTIONS = [
   { value: "updated", label: "更新日" },
   { value: "help-wanted-issues", label: "Help Wanted" },
   { value: "best-match", label: "関連度" },
-] as const;
+];
 
-const PER_PAGE_OPTIONS = [10, 20, 30, 50] as const;
+const PER_PAGE_OPTIONS = [
+  { value: "10", label: "10件" },
+  { value: "20", label: "20件" },
+  { value: "30", label: "30件" },
+  { value: "50", label: "50件" },
+];
 
 export function SearchForm() {
   const router = useRouter();
@@ -52,9 +58,6 @@ export function SearchForm() {
       router.push(buildUrl({ per_page: newPerPage, page: "1" }));
     });
   };
-
-  const selectClass =
-    "h-9 pl-3 pr-8 rounded-lg border border-gray-200 bg-white text-sm text-gray-700 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22%236b7280%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20d%3D%22M5.23%207.21a.75.75%200%20011.06.02L10%2011.168l3.71-3.938a.75.75%200%20111.08%201.04l-4.25%204.5a.75.75%200%2001-1.08%200l-4.25-4.5a.75.75%200%2001.02-1.06z%22%20clip-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem] bg-[right_0.25rem_center] bg-no-repeat focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 transition-all cursor-pointer";
 
   return (
     <div className="space-y-3 w-full max-w-2xl">
@@ -98,36 +101,20 @@ export function SearchForm() {
 
       {/* Sort & Per Page options */}
       <div className="flex items-center gap-4 flex-wrap">
-        <div className="flex items-center gap-2">
-          <label htmlFor="sort" className="text-xs font-medium text-gray-500 dark:text-gray-400">
-            並び替え
-          </label>
-          <select
-            id="sort"
-            value={sort}
-            onChange={(e) => handleSortChange(e.target.value)}
-            className={selectClass}
-          >
-            {SORT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-        </div>
-        <div className="flex items-center gap-2">
-          <label htmlFor="perPage" className="text-xs font-medium text-gray-500 dark:text-gray-400">
-            表示件数
-          </label>
-          <select
-            id="perPage"
-            value={perPage}
-            onChange={(e) => handlePerPageChange(e.target.value)}
-            className={selectClass}
-          >
-            {PER_PAGE_OPTIONS.map((n) => (
-              <option key={n} value={n}>{n}件</option>
-            ))}
-          </select>
-        </div>
+        <CustomSelect
+          id="sort"
+          label="並び替え"
+          options={SORT_OPTIONS}
+          value={sort}
+          onChange={handleSortChange}
+        />
+        <CustomSelect
+          id="perPage"
+          label="表示件数"
+          options={PER_PAGE_OPTIONS}
+          value={perPage}
+          onChange={handlePerPageChange}
+        />
       </div>
     </div>
   );

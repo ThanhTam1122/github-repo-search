@@ -16,9 +16,9 @@ export default async function Home({ searchParams }: PageProps) {
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="relative overflow-hidden border-b border-gray-200/50 dark:border-gray-800/50 bg-gradient-to-br from-white via-purple-50/30 to-pink-50/30 dark:from-gray-900 dark:via-purple-950/20 dark:to-gray-900">
+      <header className="relative border-b border-gray-200/50 dark:border-gray-800/50 bg-gradient-to-br from-white via-purple-50/30 to-pink-50/30 dark:from-gray-900 dark:via-purple-950/20 dark:to-gray-900">
         {/* Background decorations */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
           <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-purple-200/20 dark:bg-purple-800/10 blur-3xl" />
           <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-pink-200/20 dark:bg-pink-800/10 blur-3xl" />
         </div>

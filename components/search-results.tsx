@@ -41,6 +41,16 @@ export async function SearchResults({ query, page, sort, perPage }: SearchResult
         <span className="text-sm text-gray-400 dark:text-gray-600">のリポジトリが見つかりました</span>
       </div>
 
+      <div className="mb-6 -mt-2">
+        <Pagination
+          query={query}
+          currentPage={page}
+          totalCount={result.total_count}
+          sort={sort}
+          perPage={perPage}
+        />
+      </div>
+
       <div className="space-y-3">
         {result.items.map((repo, i) => (
           <div key={repo.id} style={{ animationDelay: `${i * 50}ms` }}>

@@ -13,7 +13,7 @@ describe("SearchForm", () => {
   it("renders input and button", () => {
     render(<SearchForm />);
     expect(
-      screen.getByPlaceholderText("リポジトリ名を入力してください"),
+      screen.getByPlaceholderText("リポジトリを検索..."),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "検索" })).toBeInTheDocument();
   });
@@ -26,7 +26,7 @@ describe("SearchForm", () => {
 
   it("button is enabled when input has text", () => {
     render(<SearchForm />);
-    const input = screen.getByPlaceholderText("リポジトリ名を入力してください");
+    const input = screen.getByPlaceholderText("リポジトリを検索...");
     fireEvent.change(input, { target: { value: "react" } });
     const button = screen.getByRole("button", { name: "検索" });
     expect(button).not.toBeDisabled();
@@ -34,18 +34,18 @@ describe("SearchForm", () => {
 
   it("navigates on form submit", () => {
     render(<SearchForm />);
-    const input = screen.getByPlaceholderText("リポジトリ名を入力してください");
+    const input = screen.getByPlaceholderText("リポジトリを検索...");
     fireEvent.change(input, { target: { value: "react" } });
     fireEvent.submit(input.closest("form")!);
-    expect(mockPush).toHaveBeenCalledWith("/?q=react&page=1");
+    expect(mockPush).toHaveBeenCalledWith("/?q=react&page=1&sort=stars&per_page=20");
   });
 
   it("trims whitespace from query", () => {
     render(<SearchForm />);
-    const input = screen.getByPlaceholderText("リポジトリ名を入力してください");
+    const input = screen.getByPlaceholderText("リポジトリを検索...");
     fireEvent.change(input, { target: { value: "  react  " } });
     fireEvent.submit(input.closest("form")!);
-    expect(mockPush).toHaveBeenCalledWith("/?q=react&page=1");
+    expect(mockPush).toHaveBeenCalledWith("/?q=react&page=1&sort=stars&per_page=20");
   });
 
   it("does not navigate on empty submit", () => {

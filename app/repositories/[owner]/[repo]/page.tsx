@@ -7,7 +7,7 @@ import { AiSummary } from "@/components/ai-summary";
 
 interface PageProps {
   params: Promise<{ owner: string; repo: string }>;
-  searchParams: Promise<{ q?: string; page?: string }>;
+  searchParams: Promise<{ q?: string; page?: string; sort?: string; per_page?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -20,8 +20,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function RepositoryDetailPage({ params, searchParams }: PageProps) {
   const { owner, repo } = await params;
-  const { q, page } = await searchParams;
-  const backHref = q ? `/?q=${encodeURIComponent(q)}&page=${page || "1"}` : "/";
+  const { q, page, sort, per_page } = await searchParams;
+  const backHref = q
+    ? `/?q=${encodeURIComponent(q)}&page=${page || "1"}&sort=${sort || "stars"}&per_page=${per_page || "20"}`
+    : "/";
 
   let repository;
   try {

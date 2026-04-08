@@ -1,7 +1,19 @@
 import { GitHubRepository, GitHubSearchResponse } from "./types";
 
 const GITHUB_API_BASE = "https://api.github.com";
-const PER_PAGE = 20;
+const DEFAULT_PER_PAGE = 20;
+const VALID_PER_PAGE = [10, 20, 30, 50];
+const VALID_SORT = ["stars", "forks", "updated", "help-wanted-issues", "best-match"] as const;
+
+export type SortOption = typeof VALID_SORT[number];
+
+export function validatePerPage(value: number): number {
+  return VALID_PER_PAGE.includes(value) ? value : DEFAULT_PER_PAGE;
+}
+
+export function validateSort(value: string): SortOption {
+  return VALID_SORT.includes(value as SortOption) ? (value as SortOption) : "stars";
+}
 
 export class GitHubApiError extends Error {
   constructor(
@@ -47,6 +59,8 @@ async function fetchGitHub<T>(endpoint: string): Promise<T> {
 export async function searchRepositories(
   query: string,
   page: number = 1,
+  sort: SortOption = "stars",
+  perPage: number = DEFAULT_PER_PAGE,
 ): Promise<GitHubSearchResponse> {
   if (!query.trim()) {
     return { total_count: 0, incomplete_results: false, items: [] };
@@ -54,11 +68,15 @@ export async function searchRepositories(
 
   const params = new URLSearchParams({
     q: query,
-    sort: "stars",
     order: "desc",
-    per_page: String(PER_PAGE),
+    per_page: String(perPage),
     page: String(page),
   });
+
+  // "best-match" is GitHub's default (no sort param)
+  if (sort !== "best-match") {
+    params.set("sort", sort);
+  }
 
   return fetchGitHub<GitHubSearchResponse>(
     `/search/repositories?${params.toString()}`,
@@ -86,4 +104,4 @@ export async function getReadme(owner: string, repo: string): Promise<string | n
   }
 }
 
-export { PER_PAGE };
+export { DEFAULT_PER_PAGE, VALID_PER_PAGE, VALID_SORT };

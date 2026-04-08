@@ -47,49 +47,49 @@ const mockRepository: GitHubRepository = {
 
 describe("RepositoryCard", () => {
   it("renders repository name", () => {
-    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} sort="stars" perPage={20} />);
     expect(screen.getByText("facebook/react")).toBeInTheDocument();
   });
 
   it("renders description", () => {
-    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} sort="stars" perPage={20} />);
     expect(
       screen.getByText("The library for web and native user interfaces."),
     ).toBeInTheDocument();
   });
 
   it("renders language", () => {
-    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} sort="stars" perPage={20} />);
     expect(screen.getByText("JavaScript")).toBeInTheDocument();
   });
 
   it("renders star count with locale formatting", () => {
-    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
-    expect(screen.getByText("★ 230,000")).toBeInTheDocument();
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} sort="stars" perPage={20} />);
+    expect(screen.getByText("230,000")).toBeInTheDocument();
   });
 
   it("renders owner avatar", () => {
-    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} sort="stars" perPage={20} />);
     const img = screen.getByAltText("facebook's avatar");
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute("src", mockRepository.owner.avatar_url);
   });
 
   it("links to detail page", () => {
-    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} sort="stars" perPage={20} />);
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/repositories/facebook/react?q=react&page=1");
+    expect(link).toHaveAttribute("href", "/repositories/facebook/react?q=react&page=1&sort=stars&per_page=20");
   });
 
   it("handles repository without description", () => {
     const repoWithoutDesc = { ...mockRepository, description: null };
-    render(<RepositoryCard repository={repoWithoutDesc} />);
+    render(<RepositoryCard repository={repoWithoutDesc} query="react" page={1} sort="stars" perPage={20} />);
     expect(screen.getByText("facebook/react")).toBeInTheDocument();
   });
 
   it("handles repository without language", () => {
     const repoWithoutLang = { ...mockRepository, language: null };
-    render(<RepositoryCard repository={repoWithoutLang} />);
+    render(<RepositoryCard repository={repoWithoutLang} query="react" page={1} sort="stars" perPage={20} />);
     expect(screen.queryByText("JavaScript")).not.toBeInTheDocument();
   });
 });

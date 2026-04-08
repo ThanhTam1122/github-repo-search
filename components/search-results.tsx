@@ -27,7 +27,7 @@ export async function SearchResults({ query, page }: SearchResultsProps) {
 
       <div className="space-y-3">
         {result.items.map((repo) => (
-          <RepositoryCard key={repo.id} repository={repo} />
+          <RepositoryCard key={repo.id} repository={repo} query={query} page={page} />
         ))}
       </div>
 

@@ -4,12 +4,14 @@ import { GitHubRepository } from "@/lib/types";
 
 interface RepositoryCardProps {
   repository: GitHubRepository;
+  query: string;
+  page: number;
 }
 
-export function RepositoryCard({ repository }: RepositoryCardProps) {
+export function RepositoryCard({ repository, query, page }: RepositoryCardProps) {
   return (
     <Link
-      href={`/repositories/${repository.owner.login}/${repository.name}`}
+      href={`/repositories/${repository.owner.login}/${repository.name}?q=${encodeURIComponent(query)}&page=${page}`}
       className="flex items-center gap-4 p-4 rounded-lg border border-gray-200
         hover:border-blue-300 hover:bg-blue-50/50
         dark:border-gray-700 dark:hover:border-blue-600 dark:hover:bg-blue-950/30

@@ -6,6 +6,7 @@ import { getRepository, GitHubApiError } from "@/lib/github";
 
 interface PageProps {
   params: Promise<{ owner: string; repo: string }>;
+  searchParams: Promise<{ q?: string; page?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -16,8 +17,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function RepositoryDetailPage({ params }: PageProps) {
+export default async function RepositoryDetailPage({ params, searchParams }: PageProps) {
   const { owner, repo } = await params;
+  const { q, page } = await searchParams;
+  const backHref = q ? `/?q=${encodeURIComponent(q)}&page=${page || "1"}` : "/";
 
   let repository;
   try {
@@ -41,7 +44,7 @@ export default async function RepositoryDetailPage({ params }: PageProps) {
       <header className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
         <div className="max-w-3xl mx-auto px-4 py-4">
           <Link
-            href="/"
+            href={backHref}
             className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -47,38 +47,38 @@ const mockRepository: GitHubRepository = {
 
 describe("RepositoryCard", () => {
   it("renders repository name", () => {
-    render(<RepositoryCard repository={mockRepository} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
     expect(screen.getByText("facebook/react")).toBeInTheDocument();
   });
 
   it("renders description", () => {
-    render(<RepositoryCard repository={mockRepository} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
     expect(
       screen.getByText("The library for web and native user interfaces."),
     ).toBeInTheDocument();
   });
 
   it("renders language", () => {
-    render(<RepositoryCard repository={mockRepository} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
     expect(screen.getByText("JavaScript")).toBeInTheDocument();
   });
 
   it("renders star count with locale formatting", () => {
-    render(<RepositoryCard repository={mockRepository} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
     expect(screen.getByText("★ 230,000")).toBeInTheDocument();
   });
 
   it("renders owner avatar", () => {
-    render(<RepositoryCard repository={mockRepository} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
     const img = screen.getByAltText("facebook's avatar");
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute("src", mockRepository.owner.avatar_url);
   });
 
   it("links to detail page", () => {
-    render(<RepositoryCard repository={mockRepository} />);
+    render(<RepositoryCard repository={mockRepository} query="react" page={1} />);
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/repositories/facebook/react");
+    expect(link).toHaveAttribute("href", "/repositories/facebook/react?q=react&page=1");
   });
 
   it("handles repository without description", () => {

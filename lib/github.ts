@@ -72,4 +72,18 @@ export async function getRepository(
   return fetchGitHub<GitHubRepository>(`/repos/${owner}/${repo}`);
 }
 
+export async function getReadme(owner: string, repo: string): Promise<string | null> {
+  try {
+    const data = await fetchGitHub<{ content: string; encoding: string }>(
+      `/repos/${owner}/${repo}/readme`,
+    );
+    if (data.encoding === "base64") {
+      return Buffer.from(data.content, "base64").toString("utf-8");
+    }
+    return data.content;
+  } catch {
+    return null;
+  }
+}
+
 export { PER_PAGE };

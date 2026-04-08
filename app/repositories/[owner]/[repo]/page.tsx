@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getRepository, GitHubApiError } from "@/lib/github";
+import { AiSummary } from "@/components/ai-summary";
 
 interface PageProps {
   params: Promise<{ owner: string; repo: string }>;
@@ -100,6 +101,9 @@ export default async function RepositoryDetailPage({ params, searchParams }: Pag
               </div>
             ))}
           </div>
+
+          {/* AI Summary */}
+          <AiSummary owner={owner} repo={repo} />
 
           {/* External link */}
           <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
